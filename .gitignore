@@ -400,3 +400,4 @@ FodyWeavers.xsd
 
 #custom ignore files
 .nvmrc
+package-lock.json
