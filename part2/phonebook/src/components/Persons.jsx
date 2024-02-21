@@ -1,11 +1,28 @@
 import peopleService from '../services/peopleService';
 
-const Person = ({ person }) => {
+const Person = ({ person, setMessage }) => {
   const handleOnDelete = () => {
     if (window.confirm(`Delete ${person.name} ?`)) {
-      peopleService.remove(person.id).then(() => {
-        console.log(`Deleted ${person.name}`);
-      });
+      peopleService
+        .remove(person.id)
+        .then(() => {
+          setMessage({
+            message: `Deleted ${person.name}`,
+            type: 'success',
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setMessage({
+            message: `Information of ${person.name} has already been removed from the server`,
+            type: 'error',
+          });
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
     }
   };
 
@@ -17,7 +34,7 @@ const Person = ({ person }) => {
   );
 };
 
-const Persons = ({ persons, filterName }) => {
+const Persons = ({ persons, filterName, setMessage }) => {
   return (
     <div>
       <ul>
@@ -28,7 +45,7 @@ const Persons = ({ persons, filterName }) => {
               : person;
           })
           .map((person) => (
-            <Person key={person.name} person={person} />
+            <Person key={person.name} person={person} setMessage={setMessage} />
           ))}
       </ul>
     </div>

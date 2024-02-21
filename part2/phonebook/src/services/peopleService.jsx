@@ -2,40 +2,24 @@ import axios from 'axios';
 
 const baseUrl = 'http://localhost:3001/persons';
 
-const getAll = async () => {
-  try {
-    const response = await axios.get(baseUrl);
-    return response.data;
-  } catch (error) {
-    alert(`get all failed with error: ${error}`);
-  }
+const getAll = () => {
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
 };
 
-const create = async (newPerson) => {
-  try {
-    const response = await axios.post(baseUrl, newPerson);
-    return response.data;
-  } catch (error) {
-    alert(`create failed with error: ${error}`);
-  }
+const create = (newPerson) => {
+  const request = axios.post(baseUrl, newPerson);
+  return request.then((response) => response.data);
 };
 
-const update = async (id, newPerson) => {
-  try {
-    const response = await axios.put(`${baseUrl}/${id}`, newPerson);
-    return response.data;
-  } catch (error) {
-    alert(`update failed with error: ${error}`);
-  }
+const update = (id, newPerson) => {
+  const request = axios.put(`${baseUrl}/${id}`, newPerson);
+  return request.then((response) => response.data);
 };
 
-const remove = async (id) => {
-  try {
-    const response = await axios.delete(`${baseUrl}/${id}`);
-    return response.data;
-  } catch (error) {
-    alert(`remove failed with error: ${error}`);
-  }
+const remove = (id) => {
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => response.data);
 };
 
 export default { getAll, create, update, remove };
