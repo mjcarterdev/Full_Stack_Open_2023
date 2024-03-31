@@ -8,15 +8,13 @@ function App() {
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [search, setSearch] = useState('');
   const [show, setShow] = useState('');
-  const [weather, setWeather] = useState({});
-  console.log('weather: ', weather);
+  const [fetchedWeather, setWeather] = useState({});
 
   useEffect(() => {
-    console.log(show);
     if (show.length === 1) {
-      weatherService
-        .getWeather(show[0].capital)
-        .then((data) => setWeather(data));
+      weatherService.getWeather(show[0].capital).then((data) => {
+        setWeather(data);
+      });
     }
   }, [show]);
 
@@ -69,6 +67,19 @@ function App() {
               )}
             </ul>
             <img src={filteredCountries[0].flags['png']}></img>
+            {show.length == 1 && Object.keys(fetchedWeather).length > 1 && (
+              <>
+                <h1>Weather in {filteredCountries[0].capital}</h1>
+                <p>Temp: {fetchedWeather.main.temp}oC</p>
+                <div style={{ background: 'lightblue', width: '100px' }}>
+                  <img
+                    src={`https://openweathermap.org/img/wn/${fetchedWeather.weather[0].icon}@2x.png`}
+                  ></img>
+                </div>
+
+                <p>{fetchedWeather.weather[0].description}</p>
+              </>
+            )}
           </>
         )}
         {filteredCountries.length > 10
@@ -80,7 +91,10 @@ function App() {
                   {country.name.official}
                   <button
                     style={{ marginLeft: '8px' }}
-                    onClick={() => setShow([country])}
+                    onClick={() => {
+                      setShow([country]);
+                      setFilteredCountries([country]);
+                    }}
                   >
                     show
                   </button>
