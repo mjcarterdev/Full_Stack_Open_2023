@@ -17,7 +17,7 @@ const App = () => {
     peopleService.getAll().then((initialPersons) => {
       setPersons(initialPersons);
     });
-  }, [persons]);
+  }, []);
 
   const addPerson = (event) => {
     event.preventDefault();
